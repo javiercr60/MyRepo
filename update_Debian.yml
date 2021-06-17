@@ -1,0 +1,11 @@
+--- #Patch Linux Machines running Debian based distributions
+
+- hosts: local
+  become: yes
+  tasks:
+    - name: "Update Repo Cache"
+      apt:
+        update_cache: yes
+    - name: "Upgrade Packages"
+      apt:
+        upgrade: yes

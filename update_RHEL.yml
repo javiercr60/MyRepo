@@ -1,0 +1,18 @@
+--- #Patch Linux Machines running Debian based distributions
+
+- hosts: rhel
+  become: yes
+  tasks:
+    - name: "Clean Chache"
+      yum:
+        update_cache: yes
+    - name: "Patch Server"
+      yum:
+        name: '*'
+        state: latest
+    - name: "Update Last Patch File"
+      file:
+        path: /etc/last_patched
+        state: touch
+    - name: "Reboot after patching"
+      reboot:    
