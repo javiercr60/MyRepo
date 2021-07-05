@@ -9,10 +9,8 @@
 #   - A hostname/ip can be a member of multiple groups
 
 # Ex 1: Ungrouped hosts, specify before any group headers.
-[local]
+[debian]
 localhost ansible_connection=local
-
-[remote]
 10.0.5.12
 
 [rhel]

@@ -1,6 +1,6 @@
 --- #Patch Linux Machines running Debian based distributions
 
-- hosts: local
+- hosts: debian
   become: yes
   tasks:
     - name: "Update Repo Cache"
@@ -9,3 +9,7 @@
     - name: "Upgrade Packages"
       apt:
         upgrade: yes
+    - name: "Update Last Patch File"
+      file:
+        path: /etc/last_patched
+        state: touch    
