@@ -1,0 +1,34 @@
+---
+
+- name: Get facts from remote hosts
+  #gather_facts: no
+  hosts: all
+  become: yes
+  vars:
+    filename: "last_patch_{{ date }}.csv"
+    #command_output_full:
+    #  stdout:
+    #command_output: {{ command_output_full.stdout }}
+    
+    
+  tasks:
+   - name: Get date for filename
+     set_fact: date="{{lookup('pipe','date +%Y%m%d')}}"
+     run_once: true
+
+   - name: Set header
+     shell: echo 'Hostname,IP, OS, Released, Last_Patched' > {{filename}}
+     run_once: true
+     delegate_to: localhost
+
+   - name: Read Last Patched File
+     shell: stat --printf=%y /etc/last_patched | awk '{print $1}'
+     register: output
+
+   - set_fact: 
+       patched_date={{ output.stdout }} 
+
+   - name: Sumarize data  
+     shell: echo {{ansible_hostname}},{{ansible_default_ipv4['address']}},{{ansible_os_family}},{{ansible_kernel}},{{patched_date}} >> {{filename}}
+     delegate_to: localhost 
+

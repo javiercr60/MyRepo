@@ -1,0 +1,13 @@
+---
+
+- hosts: localhost
+  become: yes
+  tasks:
+    - name: Execute
+      shell: echo | /home/jeivier/MyRepo/test.sh
+    
+    
+    #expect:
+      #  command: /home/jeivier/MyRepo/test.sh
+      #  responses:
+      #    'Hit Enter': ''
