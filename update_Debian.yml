@@ -2,13 +2,14 @@
 
 - hosts: debian
   become: yes
+  gather_facts: no
   tasks:
     - name: "Update Repo Cache"
       apt:
         update_cache: yes
     - name: "Upgrade Packages"
       apt:
-        upgrade: yes
+        upgrade: 'True'
     - name: "Update Last Patch File"
       file:
         path: /etc/last_patched

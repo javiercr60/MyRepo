@@ -1,15 +1,10 @@
 ---
 
 - name: Get facts from remote hosts
-  #gather_facts: no
   hosts: all
   become: yes
   vars:
     filename: "last_patch_{{ date }}.csv"
-    #command_output_full:
-    #  stdout:
-    #command_output: {{ command_output_full.stdout }}
-    
     
   tasks:
    - name: Get date for filename

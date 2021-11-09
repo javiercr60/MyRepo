@@ -1,0 +1,26 @@
+---
+
+- name: Server Log Files Cleanup
+  hosts: localhost
+  gather_facts: no
+  become: yes
+  
+  tasks:
+   - name: Look for Files
+     shell: find "{{ item }}" \( -name "file*.txt" -o -name "arch*.txt" \) -mtime +90
+     with_items:
+       - /home/jeivier/test1/
+       - /home/jeivier/test2/
+     register: files_to_delete
+  
+   - set_fact: 
+       path={{ files_to_delete.results | map(attribute="stdout_lines") | list }}
+
+#   - debug:
+#       var: path
+
+   - name: Delete files 
+     file:
+       path: "{{ item }}"
+       state: absent
+     with_items: '{{ path }}'     
